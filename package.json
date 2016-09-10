@@ -1,0 +1,17 @@
+{
+  "name": "seoul",
+  "version": "1.0.0",
+  "description": "공모전 준비",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "hapi"
+  ],
+  "author": "LSK",
+  "license": "ISC",
+  "dependencies": {
+    "hapi": "^15.0.3"
+  }
+}
