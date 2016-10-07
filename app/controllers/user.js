@@ -9,7 +9,7 @@ var utils = require('../../config/utils');
 
 
 /**
- * @api {get} /users 전체 조회
+ * @api {get} /users 1.전체 조회
  * @apiExample Example usage:
  * curl -i http://olleego1.iptime.org:7000/users?filter={"facebook.id":"1164951946912464"}&fields=email,name,facebook
  * @apiVersion 0.1.0
@@ -19,7 +19,6 @@ var utils = require('../../config/utils');
  * @apiUse UserResult
  * @apiUse getOptions
  * @apiUse MySuccessArray
- * @apiUse MyHeader
  * @apiUse MyError
  */
 function findAll(req, res, next) {
@@ -41,7 +40,7 @@ function findAll(req, res, next) {
 }
 
 /**
- * @api {get} /users/:id 단일 조회
+ * @api {get} /users/:id 2.단일 조회
  * @apiExample Example usage:
  * curl -i http://olleego1.iptime.org:7000/users/0
  * @apiVersion 0.1.0
@@ -73,7 +72,7 @@ function findById(req, res, next) {
         })
 }
 /**
- * @api {put} /users/:id 회원수정
+ * @api {put} /users/:id 3.회원수정
  * @apiExample Example usage:
  * curl -i http://olleego1.iptime.org:7000/users/0
  * @apiVersion 0.1.0
@@ -107,7 +106,7 @@ function findByIdAndUpdate(req, res, next) {
 }
 
 /**
- * @api {delete} /users/:id 회원삭제
+ * @api {delete} /users/:id 4.회원삭제
  * @apiExample Example usage:
  * curl -i http://olleego1.iptime.org:7000/users/0
  * @apiVersion 0.1.0
@@ -137,7 +136,7 @@ function findByIdAndRemove(req, res, next){
 }
 
 /**
- * @api {get} /profile 본인 정보 조회
+ * @api {get} /profile 6.본인 정보 조회
  * @apiExample Example usage:
  * curl -i http://olleego1.iptime.org:7000/profile
  * @apiVersion 0.1.0
@@ -165,7 +164,7 @@ function findByMe(req,res,next){
 }
 
 /**
- * @api {post} /logout 로그아웃
+ * @api {post} /logout 7.로그아웃
  * @apiExample Example usage:
  * curl -i http://olleego1.iptime.org:7000/logout
  * @apiVersion 0.1.0
@@ -182,7 +181,7 @@ function logout(req,res,next){
 
 
 /**
- * @api {post} /auth/facebook/token 페이스북 로그인
+ * @api {post} /auth/facebook/token 5.페이스북 로그인
  * @apiExample Example usage:
  * curl -i http://olleego1.iptime.org:7000/auth/facebook/token
  * @apiVersion 0.1.0

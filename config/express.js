@@ -19,7 +19,47 @@ var winston = require('winston');
 var config = require('./config');
 var pkg = require('../package.json');
 var env = process.env.NODE_ENV || 'development';
+var expressValidator = require('express-validator');
+var options = [{
+  errorFormatter: function(param, msg, value) {
+    var namespace = param.split('.')
+        , root    = namespace.shift()
+        , formParam = root;
 
+    while(namespace.length) {
+      formParam += '[' + namespace.shift() + ']';
+    }
+    return {
+      param : formParam,
+      msg   : msg,
+      value : value
+    };
+  }
+},{
+  customValidators: {
+    isArray: function(value) {
+      return Array.isArray(value);
+    },
+    gte: function(param, num) {
+      return param >= num;
+    },
+    isDate:function(d){
+      console.log('data ' , d);
+      if ( Object.prototype.toString.call(d) === "[object Date]" ) {
+        // it is a date
+        if ( isNaN( d.getTime() ) ) {  // d.valueOf() could also work
+          return false
+        }
+        else {
+          return true
+        }
+      }
+      else {
+        return false;
+      }
+    }
+  }
+}];
 /**
  * Expose
  */
@@ -55,6 +95,7 @@ module.exports = function (app, passport) {
 // bodyParser should be above methodOverride
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false}));
+  app.use(expressValidator([options]));
   app.use(cookieParser());
   app.use(cookieSession({ secret: pkg.name }));
   app.use(session({

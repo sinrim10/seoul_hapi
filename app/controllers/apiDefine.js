@@ -7,6 +7,12 @@
  *   "result": {Object}
  * }
  */
+/**
+ * @apiDefine MySuccessPost
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ */
+
 
 /**
  * @apiDefine MySuccessArray
@@ -25,6 +31,20 @@
  * @apiSuccess {String} avatar 프로필 사진
  * @apiSuccess {String} provider 인증 모듈
  * @apiSuccess {Object} facebook 페이스북 정보
+ */
+
+/**
+ * @apiDefine ProductResult
+ * @apiSuccess {Object} user 사용자 정보
+ * @apiSuccess {Object} loc 좌표정보
+ * @apiSuccess {String} loc.type 좌표 타입
+ * @apiSuccess {Number} loc.coordinates[0] longitude
+ * @apiSuccess {Number} loc.coordinates[1] latitude
+ * @apiSuccess {Number} distance 현재 위치로 부터의 거리 (단위: km)
+ * @apiSuccess {String} sort 종류 (SH : 나눔 , SR : 대여)
+ * @apiSuccess {String} title 제목
+ * @apiSuccess {String} contents 내용
+ * @apiSuccess {String[]} photo 사진
  */
 
 
@@ -75,13 +95,4 @@
  *     }
  *
 
- */
-
-/**
- * @apiDefine MyHeader
- * @apiHeader {String} Authorization auth jwt token
- * @apiHeaderExample {json} Header-Example:
- *     {
- *       "Authorization": "Olleego token"
- *     }
  */
