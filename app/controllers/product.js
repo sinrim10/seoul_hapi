@@ -82,9 +82,9 @@ function checkFindAll(req,res,next){
     }
 }
 /**
- * @api {get} /products/:lon/:lat/:lastindex?fields=loc,user,sort,photo,title,contents 1.전체조회
+ * @api {get} /products/:lon/:lat/:lastindex?fields=loc,user,sort,photo,title,contents,sido,sigungu,sigungu_code 1.전체조회
  * @apiExample Example usage:
- * curl -i http://olleego1.iptime.org:7000/products/127/33/0?fields=loc,user,sort,photo,title,contents
+ * curl -i http://olleego1.iptime.org:7000/products/127/33/0?fields=loc,user,sort,photo,title,contents,sido,sigungu,sigungu_code
  * @apiVersion 0.1.0
  * @apiName Product findAll
  * @apiGroup Product
@@ -155,18 +155,18 @@ function findAll(req,res,next){
 }
 
 /**
- * @api {get} /products/:id?fields=loc,user,sort,photo,title,contents 3.상세조회
+ * @api {get} /products/:id?fields=loc,user,sort,photo,title,contents,sido,sigungu,sigungu_code 3.상세조회
  * @apiExample Example usage:
- * curl -i http://olleego1.iptime.org:7000/products/0?fields=loc,user,sort,photo,title,contents
+ * curl -i http://olleego1.iptime.org:7000/products/0?fields=loc,user,sort,photo,title,contents,sido,sigungu,sigungu_code
  * @apiVersion 0.1.0
  * @apiName Product findById
  * @apiGroup Product
  * @apiPermission user
  * @apiParam {Number} id 물건 _id
  * @apiSuccess {Object} user 사용자 정보
- * @apiParam {String} sido 시도
- * @apiParam {String} sigungu 시군구
- * @apiParam {Number} sigungu_code 시군구 코드
+ * @apiSuccess {String} sido 시도
+ * @apiSuccess {String} sigungu 시군구
+ * @apiSuccess {Number} sigungu_code 시군구 코드
  * @apiSuccess {Object} loc 좌표정보
  * @apiSuccess {String} loc.type 좌표 타입
  * @apiSuccess {Number} loc.coordinates[0] longitude

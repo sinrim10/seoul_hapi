@@ -76,9 +76,9 @@ function checkFindAll(req,res,next){
     }
 }
 /**
- * @api {get} /feeds/:lon/:lat/:lastindex?fields=loc,user,photo,contents 1.전체조회
+ * @api {get} /feeds/:lon/:lat/:lastindex?fields=loc,user,photo,contents,sido,sigungu,sigungu_code 1.전체조회
  * @apiExample Example usage:
- * curl -i http://olleego1.iptime.org:7000/feeds/127/33/0?fields=loc,user,photo,contents
+ * curl -i http://olleego1.iptime.org:7000/feeds/127/33/0?fields=loc,user,photo,contents,sido,sigungu,sigungu_code
  * @apiVersion 0.1.0
  * @apiName Feed findAll
  * @apiGroup Feed
@@ -144,15 +144,18 @@ function findAll(req,res,next){
 }
 
 /**
- * @api {get} /feeds/:id?fields=loc,user,photo,contents 3.상세조회
+ * @api {get} /feeds/:id?fields=loc,user,photo,contents,sido,sigungu,sigungu_code 3.상세조회
  * @apiExample Example usage:
- * curl -i http://olleego1.iptime.org:7000/feeds/0?fields=loc,user,sort,photo,title,contents
+ * curl -i http://olleego1.iptime.org:7000/feeds/0?fields=loc,user,sort,photo,title,contents,sido,sigungu,sigungu_code
  * @apiVersion 0.1.0
  * @apiName Feed findById
  * @apiGroup Feed
  * @apiPermission user
  * @apiParam {Number} id 물건 _id
  * @apiSuccess {Object} user 사용자 정보
+ * @apiSuccess {String} sido 시도
+ * @apiSuccess {String} sigungu 시군구
+ * @apiSuccess {Number} sigungu_code 시군구 코드
  * @apiSuccess {Object} loc 좌표정보
  * @apiSuccess {String} loc.type 좌표 타입
  * @apiSuccess {Number} loc.coordinates[0] longitude
@@ -313,4 +316,4 @@ module.exports = {
     findByUser : findByUser,
     checkFindAll:checkFindAll,
     checkById:checkById
-}
+};
