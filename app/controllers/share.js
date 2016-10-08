@@ -318,7 +318,7 @@ function findByIdChangeStatus(req, res, next) {
  * @apiSuccess {Number} rs1 공유받음
  * @apiSuccess {Number} rq2 요청한 물건
  * @apiSuccess {Number} rs2 공유한 물건
- * @apiUse getOptions
+ * @apiSuccess {Object} user 사용자 정보
  * @apiUse MySuccess
  * @apiUse MyError
  */
