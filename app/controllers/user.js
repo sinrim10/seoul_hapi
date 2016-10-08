@@ -211,7 +211,7 @@ function facebook(req,res,next){
  * @apiExample Example usage:
  * curl -i http://olleego1.iptime.org:7000/auth/kakao/token?access_token=EAACtZBG6I8BsBAIB8NnKT2vswAB3WP.....
  * @apiVersion 0.1.0
- * @apiName User facebook
+ * @apiName User kakao
  * @apiGroup User
  * @apiParam {String} access_token 카카오톡 토큰
  * @apiPermission user
