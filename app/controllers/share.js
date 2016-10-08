@@ -212,7 +212,63 @@ function findByIdShare(req, res, next) {
     })
 }
 
+/**
+ * @api {get} /share/product/request?fields=title,photo,contents,loc 6.요청한 물건 조회
+ * @apiExample Example usage:
+ * curl -i http://olleego1.iptime.org:7000/share/product/request?fields=title,photo,contents,loc
+ * @apiVersion 0.1.0
+ * @apiName Share findByIdShareReq
+ * @apiGroup Share
+ * @apiPermission user
+ * @apiUse ShareResult
+ * @apiUse getOptions
+ * @apiUse MySuccess
+ * @apiUse MyError
+ */
+function findByIdShareReq(req,res,next){
+    var user = req.user._id;
+    Share.find({renter:user,status:'RR'})
+        .populate('product',req.fields)
+        .populate('renter','name email avatar')
+        .populate('lister','name email avatar')
+        .then(function (r) {
+            if (!utils.isEmpty(r)) {
+                return res.status(200).json({result: r})
+            } else {
+                return res.status(404).json({err: "데이터가 없습니다."});
+            }
+        })
+        .catch(function (e) {
+            return next(e);
+        });
+}
 
+/**
+ * @api {get} /share/product/request/count 7.요청한 물건 갯수
+ * @apiExample Example usage:
+ * curl -i http://olleego1.iptime.org:7000/share/product/request?fields=title,photo,contents,loc
+ * @apiVersion 0.1.0
+ * @apiName Share findByIdShareReqCount
+ * @apiGroup Share
+ * @apiPermission user
+ * @apiUse getOptions
+ * @apiUse MySuccess
+ * @apiUse MyError
+ */
+function findByIdShareReqCount(req,res,next){
+    var user = req.user._id;
+    Share.count({renter:user,status:'RR'})
+        .then(function (r) {
+            if (!utils.isEmpty(r)) {
+                return res.status(200).json({result: r})
+            } else {
+                return res.status(404).json({err: "데이터가 없습니다."});
+            }
+        })
+        .catch(function (e) {
+            return next(e);
+        });
+}
 /**
  * @api {put} /share/:id 4.요청 상태 변경
  * @apiExample Example usage:
@@ -250,6 +306,75 @@ function findByIdChangeStatus(req, res, next) {
         })
 }
 
+/**
+ * @api {get} /mypage 1.마이 페이지 정보
+ * @apiExample Example usage:
+ * curl -i http://olleego1.iptime.org:7000/mypage
+ * @apiVersion 0.1.0
+ * @apiName Mypage findMyPage
+ * @apiGroup Mypage
+ * @apiPermission user
+ * @apiSuccess {Number} rq1 공유함
+ * @apiSuccess {Number} rs1 공유받음
+ * @apiSuccess {Number} rq2 요청한 물건
+ * @apiSuccess {Number} rs2 공유한 물건
+ * @apiUse getOptions
+ * @apiUse MySuccess
+ * @apiUse MyError
+ */
+function findMyPage(req,res,next){
+    var user = req.user._id;
+    async.series({
+        rq1 :function(cb){
+            Product.count({user:user})
+                .then(function(r){
+                    cb(null,r);
+                }).catch(function(e){
+                    cb(e,null);
+                })
+        },
+        rs1:function(cb){
+            Share.count({renter:user,status:'RS'})
+                .then(function(r){
+                    cb(null,r);
+                }).catch(function(e){
+                    cb(e,null);
+                })
+        },
+        rq2:function(cb){
+            Share.count({renter:user,status:'RR'})
+                .then(function(r){
+                    cb(null,r);
+                }).catch(function(e){
+                    cb(e,null);
+                })
+        },
+        rs2:function(cb){
+            Share.count({lister:user,status:'RR'})
+                .then(function(r){
+                    cb(null,r);
+                }).catch(function(e){
+                    cb(e,null);
+                })
+        },
+        user:function(cb){
+            User.findById(user)
+                .select('name email avatar')
+                .then(function(r){
+                    cb(null,r);
+                }).catch(function(e){
+                    cb(e,null);
+                })
+        }
+    },function done(e,r){
+        if(e){
+            return next(e);
+        }
+        return res.status(200).json({result:r});
+    })
+}
+
+
 
 function checkByIdStatus(req, res, next) {
     req.checkParams('id', '숫자만 가능').isInt();
@@ -268,5 +393,9 @@ module.exports = {
     checkByIdStatus: checkByIdStatus,
     findByShare: findByShare,
     findByIdShare: findByIdShare,
-    findByIdChangeStatus: findByIdChangeStatus
+    findByIdChangeStatus: findByIdChangeStatus,
+    findByIdShareReq:findByIdShareReq,
+    findByIdShareReqCount:findByIdShareReqCount,
+    findMyPage:findMyPage
+
 };

@@ -69,6 +69,7 @@ module.exports = function (app, passport) {
     app.post('/products',auth.requiresLogin,productUpload,product.create);
     app.put('/products/:id',auth.requiresLogin,product.checkById,productUpload,product.findOneAndUpdate);
     app.delete('/products/:id',auth.requiresLogin,product.checkById,product.findOneAndRemove);
+    app.get('/products/share/count',product.findShareCount);
 
     /*
      * 소식
@@ -83,10 +84,13 @@ module.exports = function (app, passport) {
     * 나눔요청
     * */
     app.get('/share',auth.requiresLogin,share.findByShare);
+    app.get('/share/product/request',auth.requiresLogin,share.findByIdShareReq);
+    app.get('/share/product/request/count',auth.requiresLogin,share.findByIdShareReqCount);
     app.get('/share/product/:product_id',auth.requiresLogin,share.findByIdShare);
     app.post('/share',auth.requiresLogin,share.checkCreate,share.create);
     app.put('/share/:id',auth.requiresLogin,share.checkByIdStatus,share.findByIdChangeStatus);
 
+    app.get('/mypage',auth.requiresLogin,share.findMyPage);
     /*
      * 에러 핸들러
      * */

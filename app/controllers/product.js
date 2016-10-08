@@ -297,6 +297,51 @@ function findOneAndRemove(req,res,next){
         })
 }
 
+/**
+ * @api {get} /products/share/count 6.물건 공유 갯수 조회
+ * @apiExample Example usage:
+ * curl -i http://olleego1.iptime.org:7000/products/share/count
+ * @apiVersion 0.1.0
+ * @apiName Product findShareCount
+ * @apiGroup Product
+ * @apiPermission user
+ * @apiSuccess {String} _id 물건 종류 (RS :대여, SH: 나눔 ,ALL: 전체)
+ * @apiSuccess {Number} count 갯수
+ * @apiUse MySuccessArray
+ * @apiUse MyError
+ */
+function findShareCount(req,res,next){
+    Product.aggregate([
+        {
+            $project:{
+                '_id':1,
+                'sort':1
+            }
+        },{
+            $group:{
+                _id:'$sort',
+                count:{$sum:1}
+            }
+        }
+    ]).then(function(r){
+        if(!utils.isEmpty(r)){
+            var total = {_id:'ALL',count:0};
+            for(var i=0;i<r.length;i++){
+                if(['SH','SR'].indexOf(r[i]._id)){
+                    total.count += r[i].count;
+                }
+            }
+            r.push(total);
+            return res.status(200).json({result:r});
+        }else{
+            return res.status(404).json({err: "데이터가 없습니다."})
+        }
+    }).catch(function(e){
+        return next(e);
+    })
+}
+
+
 function findByUser(req,res,next){
     var limit = {};
     var fields = '';
@@ -334,5 +379,6 @@ module.exports = {
     findOneAndRemove : findOneAndRemove,
     findByUser : findByUser,
     checkFindAll:checkFindAll,
-    checkById:checkById
+    checkById:checkById,
+    findShareCount:findShareCount
 }
