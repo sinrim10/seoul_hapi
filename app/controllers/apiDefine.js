@@ -1,3 +1,4 @@
+'use strict';
 /**
  * @apiDefine MySuccess
  * @apiSuccess {Object} result 결과
@@ -7,6 +8,7 @@
  *   "result": {Object}
  * }
  */
+
 /**
  * @apiDefine MySuccessPost
  * @apiSuccessExample Success-Response:
@@ -67,6 +69,17 @@
  */
 
 /**
+ * @apiDefine ShareResult
+ * @apiSuccess {Object} lister 빌려주는사람
+ * @apiSuccess {Object} renter 빌리는사람
+ * @apiSuccess {Object} product 빌리는물건정보
+ * @apiSuccess {String} sort 빌리는 종류
+ * @apiSuccess {String} status 요청 상태 (RR 대기 , RC 취소 , RS 승인)
+ * @apiSuccess {Date} startAt 요청 시작일
+ * @apiSuccess {Date} endtAt 요청 종료일
+ */
+
+/**
 * @apiDefine BasicSuccess
 * @apiSuccess {Number} _id primary key 값
 * @apiSuccess {Date} updated 수정일
@@ -112,5 +125,15 @@
  *       "err": "에러메세지"
  *     }
  *
-
  */
+
+/**
+ * @apiDefine ShareError
+ * @apiError (Error 401 요청 권한 실패) err 에러내용
+ * @apiErrorExample 요청 권한 실패
+ *     HTTP/1.1 401 요청 권한 실패
+ *     {
+ *          "err": "본인의 물품은 요청 할 수 없습니다."
+ *      }
+ */
+

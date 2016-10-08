@@ -1,6 +1,8 @@
 /**
  * Created by Administrator on 2015-10-27.
  */
+'use strict';
+
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 var Schema = mongoose.Schema;

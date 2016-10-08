@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 var utils = require('./utils');
 var user = require('../app/controllers/user');
 var product = require('../app/controllers/product');
+var share = require('../app/controllers/share');
 var feed = require('../app/controllers/feed');
 var product_upload = require('../config/upload').upload({
     dirname:'products'
@@ -77,6 +78,14 @@ module.exports = function (app, passport) {
     app.post('/feeds',auth.requiresLogin,feedUpload,feed.create);
     app.put('/feeds/:id',auth.requiresLogin,feed.checkById,feedUpload,feed.findOneAndUpdate);
     app.delete('/feeds/:id',auth.requiresLogin,feed.checkById,feed.findOneAndRemove);
+
+    /*
+    * 나눔요청
+    * */
+    app.get('/share',auth.requiresLogin,share.findByShare);
+    app.get('/share/product/:product_id',auth.requiresLogin,share.findByIdShare);
+    app.post('/share',auth.requiresLogin,share.checkCreate,share.create);
+    app.put('/share/:id',auth.requiresLogin,share.checkByIdStatus,share.findByIdChangeStatus);
 
     /*
      * 에러 핸들러

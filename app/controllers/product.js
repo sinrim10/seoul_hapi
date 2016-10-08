@@ -1,3 +1,5 @@
+'use strict';
+
 var mongoose = require('mongoose');
 var Product = mongoose.model('Products');
 var User = mongoose.model('Users');
@@ -51,7 +53,7 @@ function create(req,res,next){
     params.user = req.user._id;
     Product.create(params)
         .then(function(result){
-            return res.status(200).json({success:true});
+            return res.sendStatus(200);
         })
         .catch(function(err){
             logger.error('err ' , JSON.stringify(err,null,2));
