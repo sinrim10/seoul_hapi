@@ -42,11 +42,23 @@
  * @apiSuccess {Number} loc.coordinates[1] latitude
  * @apiSuccess {Number} distance 현재 위치로 부터의 거리 (단위: km)
  * @apiSuccess {String} sort 종류 (SH : 나눔 , SR : 대여)
+ * @apiSuccess {String} category 카테고리
  * @apiSuccess {String} title 제목
  * @apiSuccess {String} contents 내용
  * @apiSuccess {String[]} photo 사진
  */
 
+/**
+ * @apiDefine FeedResult
+ * @apiSuccess {Object} user 사용자 정보
+ * @apiSuccess {Object} loc 좌표정보
+ * @apiSuccess {String} loc.type 좌표 타입
+ * @apiSuccess {Number} loc.coordinates[0] longitude
+ * @apiSuccess {Number} loc.coordinates[1] latitude
+ * @apiSuccess {Number} distance 현재 위치로 부터의 거리 (단위: km)
+ * @apiSuccess {String} contents 내용
+ * @apiSuccess {String[]} photo 사진
+ */
 
 /**
 * @apiDefine BasicSuccess

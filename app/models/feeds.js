@@ -8,11 +8,11 @@ var autoIncrement = require('mongoose-auto-increment');
 var Schema = mongoose.Schema;
 
 /**
- * Product Schema
+ * Feed Schema
  */
 
 
-var ProductSchema = new Schema({
+var FeedSchema = new Schema({
     user:{
       type:Number, ref:'Users',required:true
     },
@@ -20,27 +20,18 @@ var ProductSchema = new Schema({
         type: {type: String},
         coordinates: []
     },
-    category:{
-      type:String,required:true
-    },
-    sort:{
-        type:String,required:true
-    },
     photo:[{
         type:String,required:true
     }],
-    title:{
-        type:String,required:true
-    },
     contents:{
         type:String,required:true
     }
 
 }, {timestamps: {createdAt: 'created', updatedAt: 'updated'}});
-ProductSchema.index({"loc": '2dsphere'});
-ProductSchema.plugin(autoIncrement.plugin, {
-    model: 'Products'
+FeedSchema.index({"loc": '2dsphere'});
+FeedSchema.plugin(autoIncrement.plugin, {
+    model: 'Feeds'
 });
 
 
-module.exports = mongoose.model('Products', ProductSchema);
+module.exports = mongoose.model('Feeds', FeedSchema);

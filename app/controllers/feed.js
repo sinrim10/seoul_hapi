@@ -1,23 +1,20 @@
 var mongoose = require('mongoose');
-var Product = mongoose.model('Products');
+var Feed = mongoose.model('Feeds');
 var User = mongoose.model('Users');
 var utils = require('../../config/utils');
 var logger = require('mm-node-logger')(module);
 
 
 /**
- * @api {post} /products 2.물건 공유하기
+ * @api {post} /feeds 2.소식 쓰기
  * @apiExample Example usage:
- * curl -i http://olleego1.iptime.org:7000/products
+ * curl -i http://olleego1.iptime.org:7000/feeds
  * @apiVersion 0.1.0
- * @apiName Product create
- * @apiGroup Product
+ * @apiName Feed create
+ * @apiGroup Feed
  * @apiPermission user
  * @apiParam {Number} latitude 위도
  * @apiParam {Number} longitude 경도
- * @apiParam {String} sort 종류 (SH : 나눔 , SR : 대여)
- * @apiParam {String} category 카테고리
- * @apiParam {String} title 제목
  * @apiParam {String} contents 내용
  * @apiParam {File[]} image 사진
  * @apiUse MySuccessPost
@@ -41,12 +38,9 @@ function create(req,res,next){
             params.photo = image;
         }
     }
-    if(['SH','SR'].indexOf(params.sort) == -1){
-        return res.status(400).json({err:'종류는 SH 또는 SR 만 입력 가능합니다.'});
-    }
     params.loc = { type: 'Point', coordinates: [parseFloat(req.body.longitude), parseFloat(req.body.latitude)] };
     params.user = req.user._id;
-    Product.create(params)
+    Feed.create(params)
         .then(function(result){
             return res.status(200).json({success:true});
         })
@@ -79,17 +73,17 @@ function checkFindAll(req,res,next){
     }
 }
 /**
- * @api {get} /products/:lon/:lat/:lastindex?fields=loc,user,sort,photo,title,contents 1.전체조회
+ * @api {get} /feeds/:lon/:lat/:lastindex?fields=loc,user,photo,contents 1.전체조회
  * @apiExample Example usage:
- * curl -i http://olleego1.iptime.org:7000/products/127/33/0?fields=loc,user,sort,photo,title,contents
+ * curl -i http://olleego1.iptime.org:7000/feeds/127/33/0?fields=loc,user,photo,contents
  * @apiVersion 0.1.0
- * @apiName Product findAll
- * @apiGroup Product
+ * @apiName Feed findAll
+ * @apiGroup Feed
  * @apiPermission user
  * @apiParam {Number} lon 현재위치의 경도
  * @apiParam {Number} lat 현재위치의 위도
  * @apiParam {Number} lastindex 마지막 인덱스 조회값
- * @apiUse ProductResult
+ * @apiUse FeedResult
  * @apiUse getOptions
  * @apiUse MySuccessArray
  * @apiUse MyError
@@ -101,12 +95,7 @@ function findAll(req,res,next){
     var lon = parseFloat(req.params.lon);
     var lastindex = parseInt(req.params.lastindex);
     var project = {_id:1};
-    if(!utils.isEmpty(req.query.skip)){
-        limit['skip'] = parseInt(req.query.skip);
-    }
-    if(!utils.isEmpty(req.query.limit)){
-        limit['limit'] = parseInt(req.query.limit);
-    }
+
     if(!utils.isEmpty(req.fields)){
         var array = req.fields.split(" ");
         array.forEach(function(key){
@@ -114,7 +103,7 @@ function findAll(req,res,next){
         });
         project.distance = 1;
     }
-    Product.aggregate([
+    Feed.aggregate([
         {
             $geoNear:{
                 near:[lon,lat],
@@ -152,12 +141,12 @@ function findAll(req,res,next){
 }
 
 /**
- * @api {get} /products/:id?fields=loc,user,sort,photo,title,contents 3.상세조회
+ * @api {get} /feeds/:id?fields=loc,user,photo,contents 3.상세조회
  * @apiExample Example usage:
- * curl -i http://olleego1.iptime.org:7000/products/0?fields=loc,user,sort,photo,title,contents
+ * curl -i http://olleego1.iptime.org:7000/feeds/0?fields=loc,user,sort,photo,title,contents
  * @apiVersion 0.1.0
- * @apiName Product findById
- * @apiGroup Product
+ * @apiName Feed findById
+ * @apiGroup Feed
  * @apiPermission user
  * @apiParam {Number} id 물건 _id
  * @apiSuccess {Object} user 사용자 정보
@@ -165,17 +154,14 @@ function findAll(req,res,next){
  * @apiSuccess {String} loc.type 좌표 타입
  * @apiSuccess {Number} loc.coordinates[0] longitude
  * @apiSuccess {Number} loc.coordinates[1] latitude
- * @apiSuccess {String} sort 종류 (SH : 나눔 , SR : 대여)
- * @apiSuccess {String} title 제목
  * @apiSuccess {String} contents 내용
- * @apiSuccess {String} category 카테고리
  * @apiSuccess {String[]} photo 사진
  * @apiUse getOptions
  * @apiUse MySuccess
  * @apiUse MyError
  */
 function findById(req,res,next){
-    Product.findById(req.params.id)
+    Feed.findById(req.params.id)
         .select(req.fields)
         .then(function(r){
             if(!utils.isEmpty(r)){
@@ -200,19 +186,16 @@ function findById(req,res,next){
 }
 
 /**
- * @api {put} /products/:id 4.물건 수정
+ * @api {put} /feeds/:id 4.소식 수정
  * @apiExample Example usage:
- * curl -i http://olleego1.iptime.org:7000/products/0
+ * curl -i http://olleego1.iptime.org:7000/feeds/0
  * @apiVersion 0.1.0
- * @apiName Product findOneAndUpdate
- * @apiGroup Product
+ * @apiName Feed findOneAndUpdate
+ * @apiGroup Feed
  * @apiPermission user
- * @apiParam {Number} id 물건 _id
+ * @apiParam {Number} id 소식 _id
  * @apiParam {Number} user 사용자 _id
- * @apiParam {String} sort 종류 (SH : 나눔 , SR : 대여)
- * @apiParam {String} title 제목
  * @apiParam {String} contents 내용
- * @apiParam {String} category 카테고리
  * @apiParam {String[]} photo 사진
  * @apiUse MySuccessPost
  * @apiUse MyError
@@ -239,7 +222,7 @@ function findOneAndUpdate(req,res,next){
         }
     }
 
-    Product.findOneAndUpdate(options,{$set:params},{new:true})
+    Feed.findOneAndUpdate(options,{$set:params},{new:true})
         .then(function(result){
             if(!utils.isEmpty(result)){
                 return res.sendStatus(200);
@@ -254,14 +237,14 @@ function findOneAndUpdate(req,res,next){
 }
 
 /**
- * @api {delete} /products/:id 5.물건 삭제
+ * @api {delete} /feeds/:id 5.소식 삭제
  * @apiExample Example usage:
- * curl -i http://olleego1.iptime.org:7000/products/0
+ * curl -i http://olleego1.iptime.org:7000/feeds/0
  * @apiVersion 0.1.0
- * @apiName Product findOneAndRemove
- * @apiGroup Product
+ * @apiName Feed findOneAndRemove
+ * @apiGroup Feed
  * @apiPermission user
- * @apiParam {Number} id 물건 _id
+ * @apiParam {Number} id 소식 _id
  * @apiParam {Number} user 사용자 _id
  * @apiUse MySuccessPost
  * @apiUse MyError
@@ -275,7 +258,7 @@ function findOneAndRemove(req,res,next){
     if(params.user != req.user._id){
         return res.sendStatus(401);
     }
-    Product.findOneAndRemove(options)
+    Feed.findOneAndRemove(options)
         .then(function(result){
             if(!utils.isEmpty(result)){
                 return res.sendStatus(200);
@@ -304,7 +287,7 @@ function findByUser(req,res,next){
     if(!utils.isEmpty(req.query.limit)){
         limit['limit'] = parseInt(req.query.limit);
     }
-    Product.find({user:req.user._id},fields,limit)
+    Feed.find({user:req.user._id},fields,limit)
         .then(function(result){
             if(!utils.isEmpty(result)){
                 return res.status(200).json({success:true,result:result});

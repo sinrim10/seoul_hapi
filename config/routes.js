@@ -3,10 +3,15 @@ var mongoose = require('mongoose');
 var utils = require('./utils');
 var user = require('../app/controllers/user');
 var product = require('../app/controllers/product');
+var feed = require('../app/controllers/feed');
 var product_upload = require('../config/upload').upload({
     dirname:'products'
 });
 var productUpload = product_upload.fields([{ name: 'image', maxCount: 5 }]);
+var feed_upload = require('../config/upload').upload({
+    dirname:'feeds'
+});
+var feedUpload = feed_upload.fields([{ name: 'image', maxCount: 5 }]);
 /**
  * Expose routes
  */
@@ -63,6 +68,15 @@ module.exports = function (app, passport) {
     app.post('/products',auth.requiresLogin,productUpload,product.create);
     app.put('/products/:id',auth.requiresLogin,product.checkById,productUpload,product.findOneAndUpdate);
     app.delete('/products/:id',auth.requiresLogin,product.checkById,product.findOneAndRemove);
+
+    /*
+     * 소식
+     * */
+    app.get('/feeds/:lon/:lat/:lastindex',auth.requiresLogin,feed.checkFindAll,feed.findAll);
+    app.get('/feeds/:id',auth.requiresLogin,feed.checkById,feed.findById);
+    app.post('/feeds',auth.requiresLogin,feedUpload,feed.create);
+    app.put('/feeds/:id',auth.requiresLogin,feed.checkById,feedUpload,feed.findOneAndUpdate);
+    app.delete('/feeds/:id',auth.requiresLogin,feed.checkById,feed.findOneAndRemove);
 
     /*
      * 에러 핸들러
