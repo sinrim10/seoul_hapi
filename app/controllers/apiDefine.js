@@ -42,9 +42,9 @@
  * @apiSuccess {String} loc.type 좌표 타입
  * @apiSuccess {Number} loc.coordinates[0] longitude
  * @apiSuccess {Number} loc.coordinates[1] latitude
- * @apiParam {String} sido 시도
- * @apiParam {String} sigungu 시군구
- * @apiParam {Number} sigungu_code 시군구 코드
+ * @apiSuccess {String} sido 시도
+ * @apiSuccess {String} sigungu 시군구
+ * @apiSuccess {Number} sigungu_code 시군구 코드
  * @apiSuccess {Number} distance 현재 위치로 부터의 거리 (단위: km)
  * @apiSuccess {String} sort 종류 (SH : 나눔 , SR : 대여)
  * @apiSuccess {String} category 카테고리
