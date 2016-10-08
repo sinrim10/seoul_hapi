@@ -83,7 +83,7 @@ function findById(req, res, next) {
  * {
     "name" : "수정"
  * }
- * @apiUse MySuccess
+ * @apiUse MySuccessPost
  * @apiUse MyError
  */
 function findByIdAndUpdate(req, res, next) {
@@ -113,7 +113,7 @@ function findByIdAndUpdate(req, res, next) {
  * @apiName User findByIdAndRemove
  * @apiGroup User
  * @apiPermission admin
- * @apiUse MySuccess
+ * @apiUse MySuccessPost
  * @apiUse MyError
  */
 function findByIdAndRemove(req, res, next){
@@ -171,7 +171,7 @@ function findByMe(req,res,next){
  * @apiName User logout
  * @apiGroup User
  * @apiPermission user
- * @apiUse MySuccess
+ * @apiUse MySuccessPost
  * @apiUse MyError
  */
 function logout(req,res,next){
@@ -194,7 +194,7 @@ function logout(req,res,next){
  *
  * @apiParam {String} access_token 페이스북 토큰
  * @apiPermission user
- * @apiUse MySuccess
+ * @apiUse MySuccessPost
  * @apiUse MyError
  */
 function facebook(req,res,next){
@@ -215,7 +215,7 @@ function facebook(req,res,next){
  * @apiGroup User
  * @apiParam {String} access_token 카카오톡 토큰
  * @apiPermission user
- * @apiUse MySuccess
+ * @apiUse MySuccessPost
  * @apiUse MyError
  */
 function kakao(req,res,next){
