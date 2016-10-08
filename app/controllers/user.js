@@ -206,6 +206,26 @@ function facebook(req,res,next){
     })
 }
 
+/**
+ * @api {get} /auth/facebook/token?access_token=EAACtZBG6I8BsBAIB8NnKT2vswAB3WP..... 8.카카오톡 로그인
+ * @apiExample Example usage:
+ * curl -i http://olleego1.iptime.org:7000/auth/kakao/token?access_token=EAACtZBG6I8BsBAIB8NnKT2vswAB3WP.....
+ * @apiVersion 0.1.0
+ * @apiName User facebook
+ * @apiGroup User
+ * @apiParam {String} access_token 카카오톡 토큰
+ * @apiPermission user
+ * @apiUse MySuccess
+ * @apiUse MyError
+ */
+function kakao(req,res,next){
+    req.login(req.user,function(err){
+        if ( err ) {
+            return res.status(401).json({err:'Session Write Error'});
+        }
+        res.sendStatus(200);
+    })
+}
 
 module.exports = {
     findAll : findAll,
@@ -214,6 +234,7 @@ module.exports = {
     findByIdAndRemove : findByIdAndRemove,
     findByMe : findByMe,
     logout : logout,
-    facebook:facebook
+    facebook:facebook,
+    kakao:kakao
 
 };

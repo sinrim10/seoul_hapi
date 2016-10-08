@@ -21,7 +21,7 @@ module.exports.Strategy = new FacebookTokenStrategy({
   },
   function(accessToken, refreshToken, profile, done) {
     var options = {
-      criteria: { 'facebook.id': profile.id }
+      criteria: { 'facebook.id': profile.id,'provider':'facebook' }
     };
       User.findOne(options.criteria)
           .then(function(r){

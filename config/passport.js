@@ -29,4 +29,5 @@ module.exports = function (passport, config) {
   // use these strategies
   passport.use(local);
   passport.use('facebook-token',facebook.Strategy);
+  passport.use('kakao-token',kakao.Strategy);
 };

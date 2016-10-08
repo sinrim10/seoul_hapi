@@ -60,6 +60,7 @@ module.exports = function (app, passport) {
     app.get('/profile', auth.requiresLogin, user.findByMe);
     app.post('/logout', auth.requiresLogin, user.logout);
     app.post('/auth/facebook/token', passport.authenticate('facebook-token'), user.facebook);
+    app.get('/auth/kakao/token', passport.authenticate('kakao-token'), user.kakao);
 
     /*
     * 물건 공유

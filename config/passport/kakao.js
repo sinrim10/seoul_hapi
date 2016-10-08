@@ -1,49 +1,44 @@
-
 /**
  * Module dependencies.
  */
 
 var mongoose = require('mongoose');
-var KakaoStrategy = require('passport-kakao').Strategy;
+var KakaoStrategy = require('passport-kakao-token').Strategy;
 var User = mongoose.model('Users');
+var config = require('../config');
+var utils = require('../utils');
 
 /**
  * Expose
  */
 
-module.exports = new KakaoStrategy({
-      clientID: "754ebaae7db3fbd3f4b2022f4a0d5fc6",
-      callbackURL: "http://bikee.kr.pe/oauth"
-    }, function(accessToken, refreshToken, profile, done){
-
-      console.log('kakao1234 ' , profile);
-      console.log('accessToken ' , accessToken);
-      var options = {
-        criteria: { 'kakao.id': profile.id }
-      };
-      User.load(options, function (err, user) {
-        if (err) return done(err);
-        if (!user) {
-          user = new User({
-            name: profile.username,
-            email: profile.id+"@kakao.com",
-            username: profile.username,
-            provider: profile.provider,
-            kakao: profile._json
-          });
-          user.save(function (err) {
-            if (err) console.log(err);
-            users.authToken = accessToken;
-            console.log('accessToken ' ,accessToken);
-            console.log('user1 ' , user)
-            return done(err, user);
-          });
-        } else {
-          user.authToken = accessToken;
-          console.log('accessToken ' ,accessToken);
-          console.log('user2 ' , user)
-          return done(err, user);
-        }
-      });
+module.exports.Strategy = new KakaoStrategy({
+        clientID: "edd240f1cd38329f15e040a2e38bb510"
+    }, function (accessToken, refreshToken, profile, done) {
+        var options = {
+            criteria: {'kakao.id': profile.id, 'provider': 'kakao'}
+        };
+        User.findOne(options.criteria)
+            .then(function (r) {
+                if (utils.isEmpty(r)) {
+                    User.create({
+                        name: profile.username,
+                        email: profile.id+"@kakao.com",
+                        avatar: profile._json.properties.profile_image,
+                        provider: profile.provider,
+                        kakao: profile._json
+                    }).then(function (r) {
+                        return done(null, r);
+                    }).catch(function (e) {
+                        console.log('e ', e);
+                        return res.sendStatus(400);
+                    });
+                } else {
+                    return done(null, r);
+                }
+            }).catch(function (e) {
+            console.log('e ', e);
+            return done(e, null);
+        });
     }
 )
