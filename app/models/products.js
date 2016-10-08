@@ -26,6 +26,15 @@ var ProductSchema = new Schema({
     sort:{
         type:String,required:true
     },
+    sido:{
+        type:String,required:true
+    },
+    sigungu:{
+        type:String,required:true
+    },
+    sigungu_code:{
+        type:Number,required:true
+    },
     photo:[{
         type:String,required:true
     }],

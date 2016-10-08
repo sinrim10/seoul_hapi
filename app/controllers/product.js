@@ -15,6 +15,9 @@ var logger = require('mm-node-logger')(module);
  * @apiPermission user
  * @apiParam {Number} latitude 위도
  * @apiParam {Number} longitude 경도
+ * @apiParam {String} sido 시도
+ * @apiParam {String} sigungu 시군구
+ * @apiParam {Number} sigungu_code 시군구 코드
  * @apiParam {String} sort 종류 (SH : 나눔 , SR : 대여)
  * @apiParam {String} category 카테고리
  * @apiParam {String} title 제목
@@ -161,6 +164,9 @@ function findAll(req,res,next){
  * @apiPermission user
  * @apiParam {Number} id 물건 _id
  * @apiSuccess {Object} user 사용자 정보
+ * @apiParam {String} sido 시도
+ * @apiParam {String} sigungu 시군구
+ * @apiParam {Number} sigungu_code 시군구 코드
  * @apiSuccess {Object} loc 좌표정보
  * @apiSuccess {String} loc.type 좌표 타입
  * @apiSuccess {Number} loc.coordinates[0] longitude

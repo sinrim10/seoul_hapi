@@ -20,6 +20,15 @@ var FeedSchema = new Schema({
         type: {type: String},
         coordinates: []
     },
+    sido:{
+        type:String,required:true
+    },
+    sigungu:{
+        type:String,required:true
+    },
+    sigungu_code:{
+        type:Number,required:true
+    },
     photo:[{
         type:String,required:true
     }],

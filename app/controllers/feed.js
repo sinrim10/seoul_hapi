@@ -13,6 +13,9 @@ var logger = require('mm-node-logger')(module);
  * @apiName Feed create
  * @apiGroup Feed
  * @apiPermission user
+ * @apiParam {String} sido 시도
+ * @apiParam {String} sigungu 시군구
+ * @apiParam {Number} sigungu_code 시군구 코드
  * @apiParam {Number} latitude 위도
  * @apiParam {Number} longitude 경도
  * @apiParam {String} contents 내용
