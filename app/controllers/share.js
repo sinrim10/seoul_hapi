@@ -38,7 +38,7 @@ function create(req, res, next) {
                 body.sort = r.sort;
                 Share.create(body)
                     .then(function (r) {
-                        return res.sendStatus(200);
+                        return res.status(200).json({success:true});
                     })
                     .catch(function (e) {
                         return next(e);
@@ -297,7 +297,7 @@ function findByIdChangeStatus(req, res, next) {
             r.status = body.status;
             r.save()
                 .then(function (r) {
-                    return res.sendStatus(200);
+                    return res.status(200).json({success:true});
                 }).catch(function (e) {
                     return next(e);
                 })
