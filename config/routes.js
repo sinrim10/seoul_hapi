@@ -65,7 +65,7 @@ module.exports = function (app, passport) {
     /*
     * 물건 공유
     * */
-    app.get('/products/:lon/:lat/:lastindex',auth.requiresLogin,product.checkFindAll,product.findAll);
+    app.get('/products/:lon/:lat',auth.requiresLogin,product.checkFindAll,product.findAll);
     app.get('/products/:id',auth.requiresLogin,product.checkById,product.findById);
     app.post('/products',auth.requiresLogin,productUpload,product.create);
     app.put('/products/:id',auth.requiresLogin,product.checkById,productUpload,product.findOneAndUpdate);
@@ -75,7 +75,7 @@ module.exports = function (app, passport) {
     /*
      * 소식
      * */
-    app.get('/feeds/:lon/:lat/:lastindex',auth.requiresLogin,feed.checkFindAll,feed.findAll);
+    app.get('/feeds/:lon/:lat',auth.requiresLogin,feed.checkFindAll,feed.findAll);
     app.get('/feeds/:id',auth.requiresLogin,feed.checkById,feed.findById);
     app.post('/feeds',auth.requiresLogin,feedUpload,feed.create);
     app.put('/feeds/:id',auth.requiresLogin,feed.checkById,feedUpload,feed.findOneAndUpdate);
