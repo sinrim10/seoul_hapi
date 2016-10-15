@@ -65,10 +65,10 @@ function checkCreate(req, res, next) {
 }
 
 /**
- * @api {get} /share?fields=title,photo,contents,loc 1.공유한 물건 조회
+ * @api {get} /share 1.공유한 물건 조회
  * @apiExample Example usage:
- * curl -i http://olleego1.iptime.org:7000/share?fields=title,photo,contents
- * @apiVersion 0.1.0
+ * curl -i http://olleego1.iptime.org:7000/share
+ * @apiVersion 0.2.0
  * @apiName Share findByShare
  * @apiGroup Share
  * @apiPermission user
@@ -94,8 +94,6 @@ function findByShare(req, res, next) {
             $match: {
                 user: user
             }
-        }, {
-            $project: project
         }
     ]).then(function (r) {
         if (!utils.isEmpty(r)) {
@@ -138,10 +136,10 @@ function findByShare(req, res, next) {
 }
 
 /**
- * @api {get} /share/product/:product_id?fields=title,photo,contents,loc 3.공유한 물건 상세
+ * @api {get} /share/product/:product_id 3.공유한 물건 상세
  * @apiExample Example usage:
- * curl -i http://olleego1.iptime.org:7000/share/product/3?fields=title,photo,contents,user
- * @apiVersion 0.1.0
+ * curl -i http://olleego1.iptime.org:7000/share/product/3
+ * @apiVersion 0.2.0
  * @apiName Share findByIdShare
  * @apiGroup Share
  * @apiPermission user
@@ -183,7 +181,7 @@ function findByIdShare(req, res, next) {
         }
     ]).then(function (r) {
         if (!utils.isEmpty(r)) {
-            Product.populate(r, {path: '_id', select: req.fields})
+            Product.populate(r, {path: '_id'})
                 .then(function (r) {
                     if (!utils.isEmpty(r)) {
                         User.populate(r, {path: 'share.renter lister', select: 'email name avatar'})
@@ -213,10 +211,10 @@ function findByIdShare(req, res, next) {
 }
 
 /**
- * @api {get} /share/product/request?fields=title,photo,contents,loc 6.요청한 물건 조회
+ * @api {get} /share/product/request 6.요청한 물건 조회
  * @apiExample Example usage:
- * curl -i http://olleego1.iptime.org:7000/share/product/request?fields=title,photo,contents,loc
- * @apiVersion 0.1.0
+ * curl -i http://olleego1.iptime.org:7000/share/product/request
+ * @apiVersion 0.2.0
  * @apiName Share findByIdShareReq
  * @apiGroup Share
  * @apiPermission user
@@ -228,7 +226,7 @@ function findByIdShare(req, res, next) {
 function findByIdShareReq(req,res,next){
     var user = req.user._id;
     Share.find({renter:user,status:'RR'})
-        .populate('product',req.fields)
+        .populate('product')
         .populate('renter','name email avatar')
         .populate('lister','name email avatar')
         .then(function (r) {
@@ -246,7 +244,7 @@ function findByIdShareReq(req,res,next){
 /**
  * @api {get} /share/product/request/count 7.요청한 물건 갯수
  * @apiExample Example usage:
- * curl -i http://olleego1.iptime.org:7000/share/product/request?fields=title,photo,contents,loc
+ * curl -i http://olleego1.iptime.org:7000/share/product/request/count
  * @apiVersion 0.1.0
  * @apiName Share findByIdShareReqCount
  * @apiGroup Share
@@ -278,7 +276,7 @@ function findByIdShareReqCount(req,res,next){
  * @apiGroup Share
  * @apiPermission user
  * @apiParam {Number} id 공유 _id
- * @apiParam {String} status 상태
+ * @apiParam {String} status 상태 ['RS', 'RC','RR']
  * @apiUse MySuccessPost
  * @apiUse MyError
  */

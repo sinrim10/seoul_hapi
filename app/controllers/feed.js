@@ -78,10 +78,10 @@ function checkFindAll(req,res,next){
     }
 }
 /**
- * @api {get} /feeds/:lon/:lat/:lastindex?fields=loc,user,photo,contents,sido,sigungu,sigungu_code 1.전체조회
+ * @api {get} /feeds/:lon/:lat/:lastindex 1.전체조회
  * @apiExample Example usage:
- * curl -i http://olleego1.iptime.org:7000/feeds/127/33/0?fields=loc,user,photo,contents,sido,sigungu,sigungu_code
- * @apiVersion 0.1.0
+ * curl -i http://olleego1.iptime.org:7000/feeds/127/33/0
+ * @apiVersion 0.2.0
  * @apiName Feed findAll
  * @apiGroup Feed
  * @apiPermission user
@@ -116,14 +116,6 @@ function findAll(req,res,next){
                 spherical:true,
                 distanceMultiplier:6378.139266
             }
-        },{
-            $match:req.filter
-        },{
-            $skip:lastindex
-        },{
-            $limit:5
-        },{
-            $project:project
         }
     ]).then(function(r){
         if(!utils.isEmpty(r)){
@@ -146,10 +138,10 @@ function findAll(req,res,next){
 }
 
 /**
- * @api {get} /feeds/:id?fields=loc,user,photo,contents,sido,sigungu,sigungu_code 3.상세조회
+ * @api {get} /feeds/:id 3.상세조회
  * @apiExample Example usage:
- * curl -i http://olleego1.iptime.org:7000/feeds/0?fields=loc,user,sort,photo,title,contents,sido,sigungu,sigungu_code
- * @apiVersion 0.1.0
+ * curl -i http://olleego1.iptime.org:7000/feeds/0
+ * @apiVersion 0.2.0
  * @apiName Feed findById
  * @apiGroup Feed
  * @apiPermission user

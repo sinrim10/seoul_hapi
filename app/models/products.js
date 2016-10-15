@@ -27,16 +27,16 @@ var ProductSchema = new Schema({
         type:String,required:true
     },
     sido:{
-        type:String,required:true
+        type:String
     },
     sigungu:{
-        type:String,required:true
+        type:String
     },
     sigungu_code:{
-        type:Number,required:true
+        type:Number
     },
     photo:[{
-        type:String,required:true
+        type:String
     }],
     title:{
         type:String,required:true

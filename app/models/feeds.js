@@ -21,13 +21,13 @@ var FeedSchema = new Schema({
         coordinates: []
     },
     sido:{
-        type:String,required:true
+        type:String
     },
     sigungu:{
-        type:String,required:true
+        type:String
     },
     sigungu_code:{
-        type:Number,required:true
+        type:Number
     },
     photo:[{
         type:String,required:true

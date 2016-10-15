@@ -40,7 +40,7 @@ function findAll(req, res, next) {
 }
 
 /**
- * @api {get} /users/:id 2.단일 조회
+ * @api {get} /users/:id 2.상세 조회
  * @apiExample Example usage:
  * curl -i http://olleego1.iptime.org:7000/users/0
  * @apiVersion 0.1.0

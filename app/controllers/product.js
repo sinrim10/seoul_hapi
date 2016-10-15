@@ -84,16 +84,15 @@ function checkFindAll(req,res,next){
     }
 }
 /**
- * @api {get} /products/:lon/:lat/:lastindex?fields=loc,user,sort,photo,title,contents,sido,sigungu,sigungu_code 1.전체조회
+ * @api {get} /products/:lon/:lat 1.전체조회
  * @apiExample Example usage:
- * curl -i http://olleego1.iptime.org:7000/products/127/33/0?fields=loc,user,sort,photo,title,contents,sido,sigungu,sigungu_code
- * @apiVersion 0.1.0
+ * curl -i http://olleego1.iptime.org:7000/products/127/33
+ * @apiVersion 0.2.0
  * @apiName Product findAll
  * @apiGroup Product
  * @apiPermission user
  * @apiParam {Number} lon 현재위치의 경도
  * @apiParam {Number} lat 현재위치의 위도
- * @apiParam {Number} lastindex 마지막 인덱스 조회값
  * @apiUse ProductResult
  * @apiUse getOptions
  * @apiUse MySuccessArray
@@ -129,12 +128,6 @@ function findAll(req,res,next){
             }
         },{
             $match:req.filter
-        },{
-            $skip:lastindex
-        },{
-            $limit:5
-        },{
-            $project:project
         }
     ]).then(function(r){
         if(!utils.isEmpty(r)){
@@ -157,10 +150,10 @@ function findAll(req,res,next){
 }
 
 /**
- * @api {get} /products/:id?fields=loc,user,sort,photo,title,contents,sido,sigungu,sigungu_code 3.상세조회
+ * @api {get} /products/:id 3.상세조회
  * @apiExample Example usage:
- * curl -i http://olleego1.iptime.org:7000/products/0?fields=loc,user,sort,photo,title,contents,sido,sigungu,sigungu_code
- * @apiVersion 0.1.0
+ * curl -i http://olleego1.iptime.org:7000/products/0
+ * @apiVersion 0.2.0
  * @apiName Product findById
  * @apiGroup Product
  * @apiPermission user
@@ -184,7 +177,6 @@ function findAll(req,res,next){
  */
 function findById(req,res,next){
     Product.findById(req.params.id)
-        .select(req.fields)
         .then(function(r){
             if(!utils.isEmpty(r)){
                 User.populate(r,{path:'user',select:'name email avatar'})
@@ -301,7 +293,7 @@ function findOneAndRemove(req,res,next){
  * @api {get} /products/share/count 6.물건 공유 갯수 조회
  * @apiExample Example usage:
  * curl -i http://olleego1.iptime.org:7000/products/share/count
- * @apiVersion 0.1.0
+ * @apiVersion 0.2.0
  * @apiName Product findShareCount
  * @apiGroup Product
  * @apiPermission user
