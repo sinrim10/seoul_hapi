@@ -33,7 +33,7 @@ function create(req,res,next){
     var params = req.body;
     var image = [];
     if(utils.isEmpty(params)){
-        return res.sendStatus(400);
+        return res.status(400).json({success:false});
     }
 
     if(!utils.isEmpty(files)){
@@ -53,7 +53,7 @@ function create(req,res,next){
     params.user = req.user._id;
     Product.create(params)
         .then(function(result){
-            return res.sendStatus(200);
+            return res.status(200).json({success:true});
         })
         .catch(function(err){
             logger.error('err ' , JSON.stringify(err,null,2));
@@ -222,10 +222,10 @@ function findOneAndUpdate(req,res,next){
     var files = req.files;
     var params = req.body;
     if(utils.isEmpty(params)){
-        return res.sendStatus(400);
+        return res.status(400).json({success:false});
     }
     if(params.user != req.user._id){
-        return res.sendStatus(401);
+        return res.status(401).json({success:false});
     }
 
     if(!utils.isEmpty(files)){
@@ -242,7 +242,7 @@ function findOneAndUpdate(req,res,next){
     Product.findOneAndUpdate(options,{$set:params},{new:true})
         .then(function(result){
             if(!utils.isEmpty(result)){
-                return res.sendStatus(200);
+                return res.status(200).json({success:true});
             }else{
                 return res.status(404).json({err: "데이터가 없습니다."})
             }
@@ -270,15 +270,15 @@ function findOneAndRemove(req,res,next){
     var options = {_id:req.params.id};
     var params = req.body;
     if(utils.isEmpty(params)){
-        return res.sendStatus(400);
+        return res.status(400).json({success:false});
     }
     if(params.user != req.user._id){
-        return res.sendStatus(401);
+        return res.status(401).json({success:false});
     }
     Product.findOneAndRemove(options)
         .then(function(result){
             if(!utils.isEmpty(result)){
-                return res.sendStatus(200);
+                return res.status(200).json({success:true});
             }else{
                 return res.status(404).json({err: "데이터가 없습니다."})
             }
@@ -338,7 +338,7 @@ function findByUser(req,res,next){
     var limit = {};
     var fields = '';
     if(parseInt(req.params.id) != req.user._id){
-        return res.sendStatus(401);
+        return res.status(401).json({success:false});
     }
     if(!utils.isEmpty(req.query.fields)){
         fields = req.query.fields.replace(/,/gi," ");

@@ -62,7 +62,7 @@ function findById(req, res, next) {
         .select(req.fields)
         .then(function(result){
             if(!utils.isEmpty(result)){
-                return res.sendStatus(200).json({result:result});
+                return res.status(200).json({success:true}).json({result:result});
             }else{
                 return res.status(404).json({err: "데이터가 없습니다."});
             }
@@ -95,7 +95,7 @@ function findByIdAndUpdate(req, res, next) {
     User.findByIdAndUpdate(req.params.id,{$set:req.body})
         .then(function(result){
             if(!utils.isEmpty(result)){
-                return res.sendStatus(200);
+                return res.status(200).json({success:true});
             }else{
                 return res.status(404).json({err: "데이터가 없습니다."});
             }
@@ -125,7 +125,7 @@ function findByIdAndRemove(req, res, next){
     User.findByIdAndRemove(req.params.id)
         .then(function(result){
             if(!utils.isEmpty(result)){
-                return res.sendStatus(200);
+                return res.status(200).json({success:true});
             }else{
                 return res.status(404).json({err: "데이터가 없습니다."});
             }
@@ -176,7 +176,7 @@ function findByMe(req,res,next){
  */
 function logout(req,res,next){
     req.logout();
-    res.sendStatus(200);
+    res.status(200).json({success:true});
 }
 
 
@@ -202,7 +202,7 @@ function facebook(req,res,next){
         if ( err ) {
             return res.status(401).json({err:'Session Write Error'});
         }
-        res.sendStatus(200);
+        res.status(200).json({success:true});
     })
 }
 
@@ -223,7 +223,7 @@ function kakao(req,res,next){
         if ( err ) {
             return res.status(401).json({err:'Session Write Error'});
         }
-        res.sendStatus(200);
+        res.status(200).json({success:true});
     })
 }
 
